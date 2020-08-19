@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,7 +10,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
 import { Button, Card } from "@material-ui/core";
@@ -25,6 +24,11 @@ import ReconciledOrders from "./assets/ReconciledOrders.svg";
 import MerchantIcon from "./assets/Merchant.svg";
 import { Grid } from "@material-ui/core";
 import smallChart from "./assets/smallChart.svg";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import DatePicker from "./DatePicker.jsx";
+import Bell from "./assets/bell.svg";
+import DummyChart from './DummyChart.jsx';
 
 const drawerWidth = 270;
 
@@ -109,9 +113,73 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "12px",
     lineHeight: "16px",
   },
+  overview: {
+    fontFamily: "Segoe UI",
+    fontSize: "14px",
+    lineHeight: "16px",
+
+    color: "#262626",
+  },
 }));
 
 export default function Dashboard() {
+  const [date, setDate] = useState();
+  const [month, setMonth] = useState();
+  const [year, setYear] = useState();
+
+  useEffect(() => {
+    let d = new Date();
+
+    let day = d.getDate();
+    setDate(day);
+    let mon = d.getMonth() + 1; // Since getMonth() returns month from 0-11 not 1-12
+
+    switch (mon) {
+      case 1:
+        mon = "Jan";
+        break;
+      case 2:
+        mon = "Feb";
+        break;
+      case 3:
+        mon = "Mar";
+        break;
+      case 4:
+        mon = "Apr";
+        break;
+      case 5:
+        mon = "May";
+        break;
+      case 6:
+        mon = "Jun";
+        break;
+      case 7:
+        mon = "Jul";
+        break;
+      case 8:
+        mon = "Aug";
+        break;
+      case 9:
+        mon = "Sep";
+        break;
+      case 10:
+        mon = "Oct";
+        break;
+      case 11:
+        mon = "Nov";
+        break;
+      case 12:
+        mon = "Dec";
+        break;
+
+      default:
+        break;
+    }
+    setMonth(mon);
+    let yr = d.getFullYear();
+    setYear(yr);
+  }, []);
+
   const classes = useStyles();
 
   return (
@@ -151,7 +219,7 @@ export default function Dashboard() {
             FAQ
           </Typography>
           <Badge badgeContent={8} color="primary">
-            <NotificationsIcon style={{ color: "black" }} />
+            <img src={Bell} />
           </Badge>
           <div
             style={{
@@ -201,7 +269,6 @@ export default function Dashboard() {
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText
-                    className={classes.SideFont}
                     primary={text[0]}
                   />
                 </ListItem>
@@ -218,7 +285,6 @@ export default function Dashboard() {
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText
-                    className={classes.SideFont}
                     primary={text[0]}
                   />
                 </ListItem>
@@ -234,7 +300,6 @@ export default function Dashboard() {
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText
-                    className={classes.SideFont}
                     primary={text[0]}
                   />
                 </ListItem>
@@ -245,7 +310,6 @@ export default function Dashboard() {
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText
-                    className={classes.SideFont}
                     primary={text[0]}
                   />
                 </ListItem>
@@ -295,6 +359,113 @@ export default function Dashboard() {
                 <img src={smallChart} />
               </div>
             </Card>
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: "10px" }}>
+          <Grid item md={8}>
+            <Card style={{ padding: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div
+                  style={{
+                    fontFamily: "Segoe UI",
+                    fontSize: "18px",
+                    lineHeight: "21px",
+                  }}
+                >
+                  Today: {date}, {month} {year}
+                </div>
+                <div style={{ flexGrow: 1 }}></div>
+                {/* Date Picker */}
+                <div style={{ marginRight: "10px" }}>
+                  <DatePicker />
+                </div>
+                <div
+                  style={{
+                    backgroundColor: "#CCCFD4",
+                    background:
+                      "linear-gradient(0deg, #F2F4F7 0%, #FFFFFF 100%)",
+                    border: "1px solid #CED0DA",
+                    boxSizing: "border-box",
+                    borderRadius: "4px",
+                    padding: "1px",
+                    width: "min-content",
+                    margin: "4px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ArrowBackIosIcon style={{ color: "#CCCFD4" }} />
+                </div>
+                <div
+                  style={{
+                    backgroundColor: "#CCCFD4",
+                    background:
+                      "linear-gradient(0deg, #F2F4F7 0%, #FFFFFF 100%)",
+                    border: "1px solid #CED0DA",
+                    boxSizing: "border-box",
+                    borderRadius: "4px",
+                    padding: "1px",
+                    width: "min-content",
+                    margin: "4px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ArrowForwardIosIcon style={{ color: "#CCCFD4" }} />
+                </div>
+              </div>
+           <DummyChart />
+            </Card>
+          </Grid>
+          <Grid item container md={4} wrap="wrap" spacing={1}>
+            <Grid item xs={12}>
+              <Card style={{ padding: "10px" }}>
+                <p className={classes.overview}>Orders</p>
+                <div style={{ display: "flex" }}>
+                  <div
+                    style={{ flexBasis: "80%", border: "1px solid #27AE60" }}
+                  ></div>
+                  <div
+                    style={{ flexBasis: "20%", border: "1px solid #FDC203" }}
+                  ></div>
+                </div>
+                <p className={classes.overview}>
+                  Pending Orders: <span style={{ color: "#FDC203" }}>20</span>
+                </p>
+                <p className={classes.overview}>
+                  Reconciled Orders: <span style={{ color: "green" }}>80</span>
+                </p>
+                <p className={classes.overview}>
+                  Total Orders: <span style={{ color: "blue" }}>100</span>
+                </p>
+              </Card>
+            </Grid>
+            <Grid item xs={12}>
+              <Card style={{ padding: "10px" }}>
+                <p className={classes.overview}>Payments</p>
+                <div style={{ display: "flex" }}>
+                  <div
+                    style={{ flexBasis: "80%", border: "1px solid #27AE60" }}
+                  ></div>
+                  <div
+                    style={{ flexBasis: "20%", border: "1px solid #FDC203" }}
+                  ></div>
+                </div>
+                <p className={classes.overview}>
+                  Un-reconciled Payments:
+                  <span style={{ color: "#FDC203" }}>20</span>
+                </p>
+                <p className={classes.overview}>
+                  Reconciled Payments:
+                  <span style={{ color: "green" }}>80</span>
+                </p>
+                <p className={classes.overview}>
+                  Total Payments: <span style={{ color: "blue" }}>100</span>
+                </p>
+              </Card>
+            </Grid>
           </Grid>
         </Grid>
       </main>
