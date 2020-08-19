@@ -28,7 +28,13 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import DatePicker from "./DatePicker.jsx";
 import Bell from "./assets/bell.svg";
-import DummyChart from './DummyChart.jsx';
+import DummyChart from "./DummyChart.jsx";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TransTable from "./TransTable.jsx";
 
 const drawerWidth = 270;
 
@@ -94,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     lineHeight: "19px",
     flexBasis: "5%",
+    cursor: "pointer"
   },
   ListItem: {
     padding: 0,
@@ -126,6 +133,9 @@ export default function Dashboard() {
   const [date, setDate] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState();
+  const [count, setCount] = useState();
 
   useEffect(() => {
     let d = new Date();
@@ -181,6 +191,12 @@ export default function Dashboard() {
   }, []);
 
   const classes = useStyles();
+
+  const updatePagination = (paginationObject) => {
+    setPage(paginationObject.page);
+    setRowsPerPage(paginationObject.rowsPerPage);
+    setCount(paginationObject.count);
+  };
 
   return (
     <div className={classes.root}>
@@ -268,9 +284,7 @@ export default function Dashboard() {
               {[["Overview", OverviewIcon]].map((text, index) => (
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
-                  <ListItemText
-                    primary={text[0]}
-                  />
+                  <ListItemText primary={text[0]} />
                 </ListItem>
               ))}
             </List>
@@ -284,9 +298,7 @@ export default function Dashboard() {
               ].map((text, index) => (
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
-                  <ListItemText
-                    primary={text[0]}
-                  />
+                  <ListItemText primary={text[0]} />
                 </ListItem>
               ))}
             </List>
@@ -299,9 +311,7 @@ export default function Dashboard() {
               ].map((text, index) => (
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
-                  <ListItemText
-                    primary={text[0]}
-                  />
+                  <ListItemText primary={text[0]} />
                 </ListItem>
               ))}
             </List>
@@ -309,9 +319,7 @@ export default function Dashboard() {
               {[["Merchant Profile", MerchantIcon]].map((text, index) => (
                 <ListItem button key={text} className={classes.ListItem}>
                   <img style={{ marginRight: "10px" }} src={text[1]} />
-                  <ListItemText
-                    primary={text[0]}
-                  />
+                  <ListItemText primary={text[0]} />
                 </ListItem>
               ))}
             </List>
@@ -416,7 +424,7 @@ export default function Dashboard() {
                   <ArrowForwardIosIcon style={{ color: "#CCCFD4" }} />
                 </div>
               </div>
-           <DummyChart />
+              <DummyChart />
             </Card>
           </Grid>
           <Grid item container md={4} wrap="wrap" spacing={1}>
@@ -468,6 +476,56 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         </Grid>
+        <div>
+          <p
+            style={{
+              fontFamily: "Segoe UI",
+              fontSize: "36px",
+              lineHeight: "48px",
+              color: "#262626",
+            }}
+          >
+            Payments
+          </p>
+          <Grid container alignItems="center">
+            <Grid item md={3}>
+              Showing {rowsPerPage} out of {count} payments
+            </Grid>
+            <Grid item md={5}>
+              <TextField
+                className={classes.margin}
+                id="input-with-icon-textfield"
+                placeholder="search payments"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid alignItems="center" item container md={3}>
+              <Grid item>Show</Grid>
+              <Grid item>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={1}
+                  >
+                    <MenuItem value={1}>All</MenuItem>
+                    <MenuItem value={2}>Reconciled</MenuItem>
+                    <MenuItem value={3}>Un-reconciled</MenuItem>
+                    <MenuItem value={4}>Settled</MenuItem>
+                    <MenuItem value={5}>Unsettled</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Grid>
+          <TransTable updatePagination={updatePagination} />
+        </div>
       </main>
     </div>
   );
