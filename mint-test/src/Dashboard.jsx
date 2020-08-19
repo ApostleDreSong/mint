@@ -269,7 +269,7 @@ export default function Dashboard() {
           <Grid item xs={12} md={3}>
             <Card className={classes.box}>
               <div className={classes.CardText} style={{ marginRight: "10px" }}>
-                Daily Transaction Value <br /> 4,000,000
+                Daily Transaction Value <br /> ₦4,000,000
               </div>
               <div>
                 <img src={smallChart} />
@@ -289,7 +289,7 @@ export default function Dashboard() {
           <Grid item xs={12} md={3}>
             <Card className={classes.box}>
               <div className={classes.CardText} style={{ marginRight: "10px" }}>
-                Total Transaction Value <br /> 4,000,000
+                Total Transaction Value <br /> ₦4,000,000
               </div>
               <div>
                 <img src={smallChart} />
