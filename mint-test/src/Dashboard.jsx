@@ -137,9 +137,14 @@ export default function Dashboard() {
   const [rowsPerPage, setRowsPerPage] = useState();
   const [count, setCount] = useState();
   const [paymentType, setPaymentType] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handlePaymentType = (event) => {
     setPaymentType(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
   };
 
   useEffect(() => {
@@ -501,6 +506,7 @@ export default function Dashboard() {
                 className={classes.margin}
                 id="input-with-icon-textfield"
                 placeholder="search payments"
+                onChange={handleSearch}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -522,6 +528,7 @@ export default function Dashboard() {
                   >
                     <MenuItem value="All">All</MenuItem>
                     <MenuItem value="Reconciled">Reconciled</MenuItem>
+                    <MenuItem value="Pending">Pending</MenuItem>
                     <MenuItem value="Un-reconciled">Un-reconciled</MenuItem>
                     <MenuItem value="Settled">Settled</MenuItem>
                     <MenuItem value="Unsettled">Unsettled</MenuItem>
@@ -530,7 +537,11 @@ export default function Dashboard() {
               </Grid>
             </Grid>
           </Grid>
-          <TransTable updatePagination={updatePagination} paymentType={paymentType}/>
+          <TransTable
+            updatePagination={updatePagination}
+            paymentType={paymentType}
+            searchQuery={searchQuery}
+          />
         </div>
       </main>
     </div>

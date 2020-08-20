@@ -32,9 +32,9 @@ const rows = [
   ),
   createData(
     2,
-    "VW",
-    'Apple MacBook 15" 250SSD 12GB',
-    "$73430",
+    "HP",
+    'HP revolve G8',
+    "$52430",
     123456789,
     "12:30",
     "Pending"
@@ -309,6 +309,7 @@ export default function TransTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newRows, setNewRows] = React.useState(rows);
   let paymentType = props.paymentType;
+  let searchQuery = props.searchQuery;
 
   useEffect(() => {
     if (paymentType !== "All") {
@@ -318,6 +319,18 @@ export default function TransTable(props) {
       setNewRows(rows);
     }
   }, [paymentType]);
+
+   useEffect(() => {
+     if (searchQuery.trim() !== "") {
+       let result = newRows.filter(
+         (each) =>
+           each.itemType.toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0
+       );
+       setNewRows(result);
+     } else {
+      setNewRows(rows);
+     }
+   }, [searchQuery]);
 
   useEffect(() => {
     props.updatePagination({ page, rowsPerPage, count: newRows.length });
