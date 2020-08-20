@@ -307,10 +307,21 @@ export default function TransTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [newRows, setNewRows] = React.useState(rows);
+  let paymentType = props.paymentType;
 
   useEffect(() => {
-    props.updatePagination({ page, rowsPerPage, count: rows.length });
-  }, [page, rowsPerPage, rows.length]);
+    if (paymentType !== "All") {
+      let result = rows.filter((each) => each.status === paymentType);
+      setNewRows(result);
+    } else {
+      setNewRows(rows);
+    }
+  }, [paymentType]);
+
+  useEffect(() => {
+    props.updatePagination({ page, rowsPerPage, count: newRows.length });
+  }, [page, rowsPerPage, newRows.length]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -363,7 +374,7 @@ export default function TransTable(props) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, newRows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -382,10 +393,10 @@ export default function TransTable(props) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={newRows.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(newRows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -422,7 +433,13 @@ export default function TransTable(props) {
                       <TableCell align="left">{row.transactionNo}</TableCell>
                       <TableCell align="left">{row.time}</TableCell>
                       <TableCell align="left">
-                        <div style={{display: "flex", alignItems: "center",justifyContent: "space-between"}}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
                           <div
                             style={{
                               flexGrow: 1,
@@ -482,7 +499,7 @@ export default function TransTable(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={newRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

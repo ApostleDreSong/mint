@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     lineHeight: "19px",
     flexBasis: "5%",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   ListItem: {
     padding: 0,
@@ -136,6 +136,11 @@ export default function Dashboard() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState();
   const [count, setCount] = useState();
+  const [paymentType, setPaymentType] = useState("All");
+
+  const handlePaymentType = (event) => {
+    setPaymentType(event.target.value);
+  };
 
   useEffect(() => {
     let d = new Date();
@@ -512,19 +517,20 @@ export default function Dashboard() {
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
-                    value={1}
+                    value={paymentType}
+                    onChange={handlePaymentType}
                   >
-                    <MenuItem value={1}>All</MenuItem>
-                    <MenuItem value={2}>Reconciled</MenuItem>
-                    <MenuItem value={3}>Un-reconciled</MenuItem>
-                    <MenuItem value={4}>Settled</MenuItem>
-                    <MenuItem value={5}>Unsettled</MenuItem>
+                    <MenuItem value="All">All</MenuItem>
+                    <MenuItem value="Reconciled">Reconciled</MenuItem>
+                    <MenuItem value="Un-reconciled">Un-reconciled</MenuItem>
+                    <MenuItem value="Settled">Settled</MenuItem>
+                    <MenuItem value="Unsettled">Unsettled</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
             </Grid>
           </Grid>
-          <TransTable updatePagination={updatePagination} />
+          <TransTable updatePagination={updatePagination} paymentType={paymentType}/>
         </div>
       </main>
     </div>
