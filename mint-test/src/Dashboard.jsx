@@ -35,6 +35,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TransTable from "./TransTable.jsx";
+import clsx from "clsx";
 
 const drawerWidth = 270;
 
@@ -103,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   ListItem: {
-    padding: 0,
+    padding: "5px 0",
   },
   SideFont: {
     fontFamily: "Segoe UI",
@@ -126,6 +127,9 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "16px",
 
     color: "#262626",
+  },
+  drawerPadding: {
+    paddingLeft: "42px",
   },
 }));
 
@@ -272,7 +276,7 @@ export default function Dashboard() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <div style={{ paddingLeft: "42px", marginTop: "33px" }}>
+          <div style={{ marginTop: "33px" }}>
             <Button
               style={{
                 backgroundColor: "#27AE60",
@@ -285,41 +289,70 @@ export default function Dashboard() {
                 fontSize: "12px",
                 lineHeight: "14px",
                 letterSpacing: "0.2px",
+                marginLeft: "42px",
               }}
             >
               GENERATE INVOICE
             </Button>
             <List className={classes.List}>
-              <p className={classes.SideFont}>Main</p>
+              <p className={clsx(classes.SideFont, classes.drawerPadding)}>
+                Main
+              </p>
               {[["Overview", OverviewIcon]].map((text, index) => (
-                <ListItem button key={text} className={classes.ListItem}>
-                  <img style={{ marginRight: "10px" }} src={text[1]} />
+                <ListItem
+                  button
+                  key={text}
+                  className={clsx(classes.ListItem, classes.drawerPadding)}
+                  style={{
+                    backgroundColor:
+                      text[0] === "Overview" ? "rgba(24, 117, 240, 0.1)" : null,
+                    borderLeft: "4px solid #1875F0",
+                  }}
+                >
+                  <img
+                    style={{
+                      marginRight: "10px",
+                    }}
+                    src={text[1]}
+                  />
                   <ListItemText primary={text[0]} />
                 </ListItem>
               ))}
             </List>
             <List className={classes.List}>
-              <p className={classes.SideFont}>Payments</p>
+              <p className={clsx(classes.SideFont, classes.drawerPadding)}>
+                Payments
+              </p>
               {[
                 ["All Payments", AllPayments],
                 ["Reconciled Payments", ReconciledPayments],
                 ["Un - Reconciled Payments", UnReconciled],
                 ["Manual Settlement", ManualSettlement],
               ].map((text, index) => (
-                <ListItem button key={text} className={classes.ListItem}>
+                <ListItem
+                  button
+                  key={text}
+                  className={clsx(classes.ListItem, classes.drawerPadding)}
+                >
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText primary={text[0]} />
                 </ListItem>
               ))}
             </List>
             <List className={classes.List}>
-              <p className={classes.SideFont}>Orders</p>
+              <p className={clsx(classes.SideFont, classes.drawerPadding)}>
+                Orders
+              </p>
               {[
                 ["All Orders", AllOrders],
                 ["Pending Orders", PendingOrders],
                 ["Reconciled Orders", ReconciledOrders],
               ].map((text, index) => (
-                <ListItem button key={text} className={classes.ListItem}>
+                <ListItem
+                  button
+                  key={text}
+                  className={clsx(classes.ListItem, classes.drawerPadding)}
+                >
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText primary={text[0]} />
                 </ListItem>
@@ -327,7 +360,11 @@ export default function Dashboard() {
             </List>
             <List className={classes.List}>
               {[["Merchant Profile", MerchantIcon]].map((text, index) => (
-                <ListItem button key={text} className={classes.ListItem}>
+                <ListItem
+                  button
+                  key={text}
+                  className={clsx(classes.ListItem, classes.drawerPadding)}
+                >
                   <img style={{ marginRight: "10px" }} src={text[1]} />
                   <ListItemText primary={text[0]} />
                 </ListItem>
